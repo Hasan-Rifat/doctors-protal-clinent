@@ -1,12 +1,11 @@
 import React from "react";
 import img from "../../assets/images/chair.png";
-
-const Hero = () => {
+const Banner = () => {
   return (
     <div>
-      <div className="hero min-h-screen bg-base-200">
+      <div className="hero min-h-screen ">
         <div className="hero-content flex-col lg:flex-row-reverse">
-          <img src={img} className="max-w-sm rounded-lg shadow-2xl" />
+          <img src={img} className="max-w-sm rounded-lg shadow-2xl" alt="" />
           <div>
             <h1 className="text-5xl font-bold">Your New Smile Starts Here</h1>
             <p className="py-6">
@@ -22,4 +21,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default Banner;
