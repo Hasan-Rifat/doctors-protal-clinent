@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Footer from "./Footer/Footer";
 import About from "./Pages/About/About";
 import Appointment from "./Pages/Appointment/Appointment";
 import ContactUs from "./Pages/ContactUs/ContactUs";
@@ -20,6 +21,7 @@ function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
