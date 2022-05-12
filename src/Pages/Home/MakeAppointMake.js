@@ -13,7 +13,7 @@ const MakeAppointMake = () => {
       }}
       className="my-20"
     >
-      <div className="container mx-auto">
+      <div className="">
         <div className="flex justify-between items-center gap-14">
           <div className="flex-1 hidden lg:block">
             <img className="mt-[-120px] " src={doctor} alt="" />

@@ -4,10 +4,10 @@ import img from "../../assets/images/treatment.png";
 
 const AboutService = () => {
   return (
-    <div className="container mx-auto py-20 mb-20">
+    <div className=" py-20 mb-20">
       <div className="hero ">
         <div className="hero-content flex-col lg:flex-row gap-20">
-          <img src={img} className="max-w-sm rounded-lg shadow-2xl" alt="" />
+          <img src={img} className="rounded-lg shadow-2xl" alt="" />
           <div>
             <h1 className="text-5xl font-bold text-accent text-[28px] lg:text-[48px]">
               Exceptional Dental Care, on Your Terms
