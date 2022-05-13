@@ -1,32 +1,28 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
-  useSignInWithEmailAndPassword,
+  useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
+  useUpdateProfile,
 } from "react-firebase-hooks/auth";
-import auth from "../../firebase.init";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import auth from "../../firebase.init";
 import Loading from "../Shared/Loading";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-  const [signInWithEmailAndPassword, eUser, eLoading, eError] =
-    useSignInWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile, updating, updateError] = useUpdateProfile(auth);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  let from = location.state?.from?.pathname || "/";
-
-  useEffect(() => {
-    if (gUser || eUser) {
-      navigate(from, { replace: true });
-    }
-  }, [gUser, eUser, from, navigate]);
+  if (gUser || user) {
+    console.log(gUser || user);
+  }
 
   /* useEffect(() => {
     if (user) {
@@ -35,27 +31,53 @@ const Login = () => {
   }, []); */
   let signInError;
 
-  if (gError || eError) {
+  if (gError || error || updateError) {
     signInError = (
       <p className="text-red-500 ">
         <small>
-          {gError?.message} {eError?.message}
+          {gError?.message} {error?.message} {updateError?.message}
         </small>
       </p>
     );
   }
-  if (gLoading || eLoading) {
+  if (gLoading || loading || updating) {
     return <Loading></Loading>;
   }
-  const onSubmit = (data) => {
-    signInWithEmailAndPassword(data.email, data.password);
+  const onSubmit = async (data) => {
+    console.log(data);
+    await createUserWithEmailAndPassword(data.email, data.password);
+    await updateProfile({ displayName: data.name });
   };
   return (
     <div className="flex h-screen justify-center items-center">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="text-center text-2xl font-bold">Login</h2>
+          <h2 className="text-center text-2xl font-bold">Sign Up</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-control w-full max-w-xs">
+              <label className="label">
+                <span className="label-text">Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Your name"
+                className="input input-bordered w-full max-w-xs"
+                {...register("name", {
+                  required: {
+                    value: true,
+                    message: "Name is required",
+                  },
+                })}
+              />
+              <label className="label">
+                {errors.name?.type === "required" && (
+                  <span className="label-text-alt text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
+              </label>
+            </div>
+
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -75,9 +97,9 @@ const Login = () => {
                   },
 
                   /*  pattern: {
-                    value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                    message: 'Provide a valid Email'
-                } */
+                  value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                  message: 'Provide a valid Email'
+              } */
                 })}
               />
               <label className="label">
@@ -127,22 +149,22 @@ const Login = () => {
             </div>
 
             {/* <input />
-            {errors.firstName?.type === "required" && "First name is required"}
+          {errors.firstName?.type === "required" && "First name is required"}
 
-            <input {...register("lastName", { required: true })} />
-            {errors.lastName && "Last name is required"} */}
+          <input {...register("lastName", { required: true })} />
+          {errors.lastName && "Last name is required"} */}
             {signInError}
             <input
               className="w-full max-w-xs btn"
               type="submit"
-              value="Login"
+              value="SignUp"
             />
           </form>
           <p>
             <small>
-              New to Doctors Portal{" "}
-              <Link className="text-primary" to="/signup">
-                Create New Account
+              All Ready have a Account?{" "}
+              <Link className="text-primary" to="/login">
+                Please Login
               </Link>
             </small>
           </p>
@@ -160,4 +182,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
