@@ -37,7 +37,7 @@ const Login = () => {
 
   if (gError || eError) {
     signInError = (
-      <p className="text-red-500 ">
+      <p className="text-red-600 ">
         <small>
           {gError?.message} {eError?.message}
         </small>
