@@ -1,19 +1,46 @@
 import { format } from "date-fns";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 
-const BookingModel = ({ treatment, date, setTreatment }) => {
+const BookingModel = ({ treatment, date, setTreatment, refetch }) => {
   const [user, loading, error] = useAuthState(auth);
   const { _id, name, slots } = treatment;
+  const formatDate = format(date, "PP");
   const handleBooking = (e) => {
     e.preventDefault();
     const slot = e.target.slot.value;
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const phone = e.target.phone.value;
-    console.log(_id, slot, name, email, phone);
-    setTreatment(null);
+
+    const booking = {
+      treatmentId: _id,
+      treatment: name,
+      date: formatDate,
+      slot,
+      patient: user.email,
+      patientName: user.displayName,
+      phone: e.target.phone.value,
+    };
+    fetch("http://localhost:5000/booking", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(booking),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          toast.success(`Appointment is set, ${formatDate} at ${slot}`);
+        } else {
+          toast.error(
+            `you all Ready have a appointment, ${data.booking?.date} at ${data.booking?.slot}`
+          );
+        }
+        setTreatment(null);
+        refetch();
+      });
   };
   return (
     <div>

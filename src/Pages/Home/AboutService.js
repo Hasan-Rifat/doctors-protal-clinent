@@ -7,8 +7,10 @@ const AboutService = () => {
     <div className=" py-20 mb-20">
       <div className="hero ">
         <div className="hero-content flex-col lg:flex-row gap-20">
-          <img src={img} className="rounded-lg shadow-2xl" alt="" />
           <div>
+            <img src={img} className="rounded-lg shadow-2xl" alt="" />
+          </div>
+          <div className="">
             <h1 className="text-5xl font-bold text-accent text-[28px] lg:text-[48px]">
               Exceptional Dental Care, on Your Terms
             </h1>
