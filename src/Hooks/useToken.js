@@ -7,10 +7,11 @@ const useToken = (user) => {
     const email = user?.user?.email;
     const currentUser = { email: email };
     if (email) {
-      fetch(`http://localhost:5000/user/${email}`, {
+      fetch(`https://doctors-portal-server-1.herokuapp.com/user/${email}`, {
         method: "PUT",
         headers: {
           content: "application/json",
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
         body: JSON.stringify(currentUser),
       })
