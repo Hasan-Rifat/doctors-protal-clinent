@@ -1,7 +1,7 @@
 import React from "react";
 
 const Service = ({ service, setTreatment }) => {
-  const { name, slots } = service;
+  const { name, slots, price } = service;
   return (
     <div className="card shadow-xl py-10">
       <div className="card-body">
@@ -15,6 +15,9 @@ const Service = ({ service, setTreatment }) => {
         </p>
         <p className="text-black text-[12px] ">
           {slots.length} {slots.length > 1 ? "SPACES AVAILABLE" : "SPACE"}
+        </p>
+        <p>
+          <small>Price : ${price}</small>
         </p>
         <div className="card-actions justify-center">
           <label
